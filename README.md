@@ -1,4 +1,5 @@
 # projet_flutter
+Mettez vous sur la branche master puis dossier lib et les 5 fichier .dart c'est le debut de l'appli
 G2
 Repartition taches 
 
