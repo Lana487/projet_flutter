@@ -12,26 +12,46 @@ class ChoixSallePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Choix de la salle - ${etage.nom}"),
-      ),
+            //title: Text("Choix de la salle 🧑‍🏫 - ${etage.nom}"),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  etage.nom,
+                  style: const TextStyle(
+                      fontSize: 14.0, fontStyle: FontStyle.italic),
+                ),
+                const Text(
+                  'Choix de la salle 🧑‍🏫',
+                  style: TextStyle(
+                    fontSize: 22.0,
+                  ),
+                ),
+              ],
+            ),
+            elevation: 0.7,
+            shadowColor: Colors.black,
+          ),
       body: ListView.builder(
         itemCount: etage.salles.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(etage.salles[index]),
+            title: Text("• ${etage.salles[index]}",
+                style: const TextStyle(fontSize: 22, color: Colors.green)),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SalleDetailPage(
-                    salle: Salle(
-                      nom: etage.salles[index],
-                      etage: etage.nom,
-                      description: "Description de la salle ${etage.salles[index]}",
-                      disponibilite: "Disponible",
-                      qualiteWifi: "Moyenne",
-                    ),
-                )),
+                    builder: (context) => SalleDetailPage(
+                          salle: Salle(
+                            nom: etage.salles[index],
+                            etage: etage.nom,
+                            description:
+                                "Description de la salle ${etage.salles[index]}",
+                            disponibilite: "Disponible",
+                            qualiteWifi: "Moyenne",
+                          ),
+                        )),
               );
             },
           );
