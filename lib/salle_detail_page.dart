@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'salle.dart'; // Assurez-vous d'avoir créé le fichier salle.dart
+import 'package:toggle_switch/toggle_switch.dart';
 
 class SalleDetailPage extends StatefulWidget {
   final Salle salle;
@@ -12,28 +13,37 @@ class SalleDetailPage extends StatefulWidget {
 
 class SalleDetailPageState extends State<SalleDetailPage> {
   final TextEditingController _commentController = TextEditingController();
-  List<bool> isDispo = [true, false];
-  List<bool> qualiteWifi = [false, true, false];
 
   @override
   Widget build(BuildContext context) {
+    int indiceWifi = 0;
+    if (widget.salle.qualiteWifi == "Moyenne"){
+      indiceWifi = 1;
+    }else if (widget.salle.qualiteWifi == "Bonne"){
+      indiceWifi = 2;
+    }
+    int indiceDispo = 0;
+    if (widget.salle.disponibilite == "Disponible"){
+      indiceDispo = 1;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              widget.salle.nom,
+              //widget.salle.nom,
+              widget.salle.qualiteWifi,
               style: const TextStyle(
-                fontSize: 14.0,
-                fontStyle: FontStyle.italic,
+                fontSize: 14.0, fontStyle: FontStyle.italic, color: Colors.white,
               ),
               textAlign: TextAlign.center,
             ),
             const Text(
               'Description',
               style: TextStyle(
-                fontSize: 22.0,
+                fontSize: 22.0, color: Colors.white,
               ),
               textAlign: TextAlign.center,
             ),
@@ -42,6 +52,8 @@ class SalleDetailPageState extends State<SalleDetailPage> {
         elevation: 0.7,
         shadowColor: Colors.black,
         centerTitle: true,
+        backgroundColor: Colors.indigo,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -53,67 +65,69 @@ class SalleDetailPageState extends State<SalleDetailPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text("Nom de la salle: ${widget.salle.nom}",
-                    style: const TextStyle(fontSize: 18)),
+                    style: const TextStyle(fontSize: 16)),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text("Étage: ${widget.salle.etage}",
-                    style: const TextStyle(fontSize: 18)),
+                    style: const TextStyle(fontSize: 16)),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text("Description: ${widget.salle.description}",
-                    style: const TextStyle(fontSize: 18)),
+                    style: const TextStyle(fontSize: 16)),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text("Disponible: ${widget.salle.disponibilite}",
-                    style: const TextStyle(fontSize: 18)),
+                child: Row(
+                  children: [
+                    const Text("Disponibilité : ",
+                        style: TextStyle(fontSize: 16)),
+                    ToggleSwitch(
+                      minWidth: 110.0,
+                      minHeight: 30.0,
+                      initialLabelIndex: indiceDispo,
+                      cornerRadius: 20.0,
+                      activeFgColor: Colors.white,
+                      inactiveBgColor: Colors.grey,
+                      inactiveFgColor: Colors.black,
+                      totalSwitches: 2,
+                      borderWidth: 2.0,
+                      borderColor: const [Colors.blueGrey],
+                      activeBgColors: const [
+                        [Colors.red],
+                        [Colors.green]
+                      ],
+                      labels: ['Non Disponible','Disponible'],
+                      fontSize: 11,
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Row(
                   children: [
                     const Text("Qualité du WiFi : ",
-                        style: TextStyle(fontSize: 18)),
-                    ToggleButtons(
-                      isSelected: qualiteWifi,
-                      selectedColor: Colors.white,
-                      color: Colors.black,
-                      fillColor: Colors.green,
-                      splashColor: Colors.greenAccent,
-                      textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                      renderBorder: true,
-                      borderColor: Colors.black,
-                      borderWidth: 1.5,
-                      borderRadius: BorderRadius.circular(5),
-                      selectedBorderColor: Colors.greenAccent,
-                      children: const [
-                        Padding(
-                          padding: EdgeInsets.all(7),
-                          child:
-                              Text('Mauvaise', style: TextStyle(fontSize: 15)),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(7),
-                          child:
-                              Text('Moyenne', style: TextStyle(fontSize: 15)),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(7),
-                          child: Text('Bonne', style: TextStyle(fontSize: 15)),
-                        ),
+                        style: TextStyle(fontSize: 16)),
+                    ToggleSwitch(
+                      minWidth: 72.0,
+                      minHeight: 30.0,
+                      initialLabelIndex: indiceWifi,
+                      cornerRadius: 20.0,
+                      activeFgColor: Colors.white,
+                      inactiveBgColor: Colors.grey,
+                      inactiveFgColor: Colors.black,
+                      totalSwitches: 3,
+                      borderWidth: 2.0,
+                      borderColor: const [Colors.blueGrey],
+                      activeBgColors: const [
+                        [Colors.red],
+                        [Colors.orange],
+                        [Colors.green]
                       ],
-                      onPressed: (int newIndex) {
-                        setState(() {
-                          // looping through the list of booleans values
-                          for (int index = 0;
-                              index < qualiteWifi.length;
-                              index++) {
-                            qualiteWifi[index] = index == newIndex;
-                          }
-                        });
-                      },
+                      labels: ['Mauvaise','Moyenne','Bonne'],
+                      fontSize: 11,
                     ),
                   ],
                 ),

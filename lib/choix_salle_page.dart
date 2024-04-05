@@ -19,18 +19,20 @@ class ChoixSallePage extends StatelessWidget {
                 Text(
                   etage.nom,
                   style: const TextStyle(
-                      fontSize: 14.0, fontStyle: FontStyle.italic),
+                      fontSize: 14.0, fontStyle: FontStyle.italic, color: Colors.white,),
                 ),
                 const Text(
                   'Choix de la salle 🧑‍🏫',
                   style: TextStyle(
-                    fontSize: 22.0,
+                    fontSize: 22.0, color: Colors.white,
                   ),
                 ),
               ],
             ),
             elevation: 0.7,
             shadowColor: Colors.black,
+            backgroundColor: Colors.indigo,
+            iconTheme: const IconThemeData(color: Colors.white),
           ),
       body: ListView.builder(
         itemCount: etage.salles.length,
