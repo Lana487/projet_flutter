@@ -17,6 +17,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  //pourquoi StatelessWidget et non StatefulWidget ?
+  // Parce que cette page n'a pas besoin de changer d'état
   const MyApp({super.key});
 
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'salle.dart'; // Assurez-vous d'avoir créé le fichier salle.dart
+import 'salle.dart'; 
 import 'package:toggle_switch/toggle_switch.dart';
 
 class SalleDetailPage extends StatefulWidget {
