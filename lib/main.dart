@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_appchat/salle.dart';
 import 'etage_salle.dart';
 import 'choix_salle_page.dart';
 
 // Liste d'étages pour l'exemple
 final List<Etage> etages = [
-  Etage(nom: "Rez-de-chaussée", salles: ["Foyer", "Administration IsFoGEP"]),
-  Etage(nom: "1er Étage", salles: ["Salles 100", "Hall d'entrée escaliers"]),
+  Etage(nom: "Rez-de-chaussée", salles: [Salle(nom: "Foyer", description:"", disponibilite: "disponible", qualiteWifi:"bonne"),  Salle(nom: "Administration IsFoGEP", description:"", disponibilite: "disponible", qualiteWifi: "Bonne")]), 
+  Etage(nom: "1er Étage", salles: [Salle(nom: "Salles 100", description:" Salle de cours ", disponibilite: "Disponible", qualiteWifi: "Moyenne"), Salle(nom: "Hall d'entrée escaliers", description: "", disponibilite: "Disponible", qualiteWifi: "Moyenne")]),
   Etage(
       nom: "2ème Étage",
-      salles: ["Salles 200", "Salles des profs", "Scolarité"]),
-  Etage(nom: "3ème Étage", salles: ["Salles 300", "Administration"]),
+      salles: [Salle(nom: "Salles 200", description:" Salle de cours ", disponibilite: "Non Disponible", qualiteWifi: "Mauvaise"), Salle(nom: "Scolarité", description: "", disponibilite: "Disponible", qualiteWifi: "Moyenne"), Salle(nom: "Salles des profs", description: "", disponibilite: "Disponible", qualiteWifi: "Bonne")]),
+  Etage(nom: "3ème Étage", salles: [ Salle(nom: "Salles 300", description: " Salle de cours", disponibilite: "Disponible", qualiteWifi: "Moyenne"), Salle(nom: "Administration", description:"", disponibilite: "Disponible", qualiteWifi: "Bonne")]), 
 ];
 
 void main() {
@@ -17,7 +18,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key}); 
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: etages[index]
                           .salles
-                          .map((salle) => Text(salle))
+                          .map((salle) => Text(salle.nom))
                           .toList(),
                     ),
                   ),

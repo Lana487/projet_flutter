@@ -46,13 +46,14 @@ class ChoixSallePage extends StatelessWidget {
                 MaterialPageRoute(
                     builder: (context) => SalleDetailPage(
                           salle: Salle(
-                            nom: etage.salles[index],
-                            etage: etage.nom,
+                            nom: etage.salles[index].nom,
                             description:
                                 "Description de la salle ${etage.salles[index]}",
                             disponibilite: "Disponible",
                             qualiteWifi: "Moyenne",
                           ),
+                          etage: etage.nom, 
+                          
                         )),
               );
             },

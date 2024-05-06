@@ -4,8 +4,9 @@ import 'package:toggle_switch/toggle_switch.dart';
 
 class SalleDetailPage extends StatefulWidget {
   final Salle salle;
+  final String etage; 
 
-  const SalleDetailPage({super.key, required this.salle});
+  const SalleDetailPage({super.key, required this.salle,required this.etage});
 
   @override
   SalleDetailPageState createState() => SalleDetailPageState();
@@ -69,7 +70,7 @@ class SalleDetailPageState extends State<SalleDetailPage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text("Étage: ${widget.salle.etage}",
+                child: Text("Étage: ${widget.etage}", 
                     style: const TextStyle(fontSize: 16)),
               ),
               Padding(
@@ -98,7 +99,7 @@ class SalleDetailPageState extends State<SalleDetailPage> {
                         [Colors.red],
                         [Colors.green]
                       ],
-                      labels: ['Non Disponible','Disponible'],
+                      labels: const ['Non Disponible','Disponible'],
                       fontSize: 11,
                     ),
                   ],
@@ -126,7 +127,7 @@ class SalleDetailPageState extends State<SalleDetailPage> {
                         [Colors.orange],
                         [Colors.green]
                       ],
-                      labels: ['Mauvaise','Moyenne','Bonne'],
+                      labels: const ['Mauvaise','Moyenne','Bonne'],
                       fontSize: 11,
                     ),
                   ],
