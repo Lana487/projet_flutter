@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'etage_salle.dart';
 import 'choix_salle_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
+}
 // Liste d'étages pour l'exemple
 final List<Etage> etages = [
   Etage(nom: "Rez-de-chaussée", salles: ["Foyer", "Administration IsFoGEP"]),
@@ -12,9 +21,6 @@ final List<Etage> etages = [
   Etage(nom: "3ème Étage", salles: ["Salles 300", "Administration"]),
 ];
 
-void main() {
-  runApp(MyApp());
-}
 
 class MyApp extends StatelessWidget {
   //pourquoi StatelessWidget et non StatefulWidget ?
