@@ -38,7 +38,7 @@ class ChoixSallePage extends StatelessWidget {
         itemCount: etage.salles.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text("• ${etage.salles[index]}",
+            title: Text("• ${etage.salles[index].nom}",
                 style: const TextStyle(fontSize: 22, color: Colors.green)),
             onTap: () {
               Navigator.push(
@@ -46,13 +46,12 @@ class ChoixSallePage extends StatelessWidget {
                 MaterialPageRoute(
                     builder: (context) => SalleDetailPage(
                           salle: Salle(
-                            nom: etage.salles[index],
-                            etage: etage.nom,
-                            description:
-                                "Description de la salle ${etage.salles[index]}",
-                            disponibilite: "Disponible",
-                            qualiteWifi: "Moyenne",
+                            nom: etage.salles[index].nom,
+                            description: etage.salles[index].description,
+                            disponibilite: etage.salles[index].disponibilite,
+                            qualiteWifi:etage.salles[index].qualiteWifi,
                           ),
+                          nomEtage: etage.nom,
                         )),
               );
             },
