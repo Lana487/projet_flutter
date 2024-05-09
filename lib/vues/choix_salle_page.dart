@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_appchat/salle.dart';
-import 'etage_salle.dart';
+import 'package:flutter_appchat/models/salle.dart';
+import '../models/etage_salle.dart';
 import 'salle_detail_page.dart';
 
 class ChoixSallePage extends StatelessWidget {

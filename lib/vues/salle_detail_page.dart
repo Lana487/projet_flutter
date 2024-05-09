@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'salle.dart'; 
+import '../models/salle.dart'; 
 import 'package:toggle_switch/toggle_switch.dart';
 
 class SalleDetailPage extends StatefulWidget {

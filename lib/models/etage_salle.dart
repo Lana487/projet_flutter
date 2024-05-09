@@ -1,4 +1,4 @@
-import 'package:flutter_appchat/salle.dart';
+import 'package:flutter_appchat/models/salle.dart';
 
 class Etage {
   final String nom;

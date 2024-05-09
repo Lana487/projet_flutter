@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'etage_salle.dart';
-import 'choix_salle_page.dart';
+import 'models/etage_salle.dart';
+import 'vues/choix_salle_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'salle.dart';
+import 'models/salle.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
