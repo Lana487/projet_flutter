@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_appchat/services/database.dart';
 import 'models/etage_salle.dart';
 import 'vues/choix_salle_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'models/salle.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
-// Liste d'étages pour l'exemple
-final List<Etage> etages = [
-  Etage(nom: "Rez-de-chaussée", salles: [Salle(nom: "Foyer", description:"", disponibilite: "disponible", qualiteWifi:"bonne"),  Salle(nom: "Administration IsFoGEP", description:"", disponibilite: "disponible", qualiteWifi: "Bonne")]), 
-  Etage(nom: "1er Étage", salles: [Salle(nom: "Salles 100", description:"Salle de cours", disponibilite: "Disponible", qualiteWifi: "Moyenne"), Salle(nom: "Hall d'entrée escaliers", description: "", disponibilite: "Disponible", qualiteWifi: "Moyenne")]), 
-  Etage(nom: "2ème Étage", salles: [Salle(nom: "Salles 200", description:" Salle de cours ", disponibilite: "Non Disponible", qualiteWifi: "Mauvaise"), Salle(nom: "Scolarité", description: "", disponibilite: "Disponible", qualiteWifi: "Moyenne"), Salle(nom: "Salles des profs", description: "", disponibilite: "Disponible", qualiteWifi: "Bonne")]),
-  Etage(nom: "3ème Étage", salles: [ Salle(nom: "Salles 300", description: "Salle de cours", disponibilite: "Disponible", qualiteWifi: "Moyenne"), Salle(nom: "Administration", description:"", disponibilite: "Disponible", qualiteWifi: "Bonne")]), 
-];
+
+DatabaseService dbs= DatabaseService(); 
+final List <Etage> etages=[];
 
 
 class MyApp extends StatelessWidget {
@@ -44,9 +40,20 @@ class MyApp extends StatelessWidget {
           elevation: 7,
           shadowColor: Colors.blueAccent,
         ),
-        body: ListView.builder(
-          itemCount: etages.length,
+        body: FutureBuilder<List<Etage>>( 
+          future: dbs.recuperationEtages(),
+          builder: (context, snapshot){ 
+            if(snapshot.connectionState==ConnectionState.waiting){ 
+              return const Center(child: CircularProgressIndicator());
+            }
+          else if(snapshot.hasError){ 
+              return const Center(child: Text("Une erreur est survenue"));
+             }
+            else{  
+        return ListView.builder(
+          itemCount: snapshot.data?.length,
           itemBuilder: (context, index) {
+            //print("Données récupérées" + (snapshot.data!.length).toString()); 
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0), // Espacement vertical entre chaque ListTile
               child: Container(
@@ -58,12 +65,12 @@ class MyApp extends StatelessWidget {
                     height: 55,
                     fit: BoxFit.fill,
                   ),
-                  title: Text(etages[index].nom),
+                  title: Text(snapshot.data![index].nom),
                   subtitle: Padding(
                     padding: const EdgeInsets.only(left: 15.0), // Décalage vers la droite
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: etages[index]
+                      children: snapshot.data![index] 
                           .salles
                           .map((salle) => Text(salle.nom)) 
                           .toList(),
@@ -75,7 +82,7 @@ class MyApp extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            ChoixSallePage(etage: etages[index]),
+                            ChoixSallePage(etage: snapshot.data![index]),
                       ),
                     );
                   },
@@ -83,8 +90,10 @@ class MyApp extends StatelessWidget {
               ),
             );
           },
-        ),
-      ),
+        );
+            } 
+  }),
+    )
     );
   }
 }

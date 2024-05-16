@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_appchat/services/database.dart';
+import 'package:flutter_appchat/widgets/boite_dialogue.dart';
 import '../models/salle.dart'; 
-import 'package:toggle_switch/toggle_switch.dart';
+import 'package:toggle_switch/toggle_switch.dart'; 
 
 class SalleDetailPage extends StatefulWidget {
   final Salle salle;
@@ -12,8 +14,11 @@ class SalleDetailPage extends StatefulWidget {
   SalleDetailPageState createState() => SalleDetailPageState();
 }
 
+DatabaseService dbs= DatabaseService();
+
 class SalleDetailPageState extends State<SalleDetailPage> {
-  final TextEditingController _commentController = TextEditingController();
+  final TextEditingController _commentController = TextEditingController(); 
+  
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +29,8 @@ class SalleDetailPageState extends State<SalleDetailPage> {
       indiceWifi = 2;
     }
     int indiceDispo = 0;
-    if (widget.salle.disponibilite == "Disponible"){
-      indiceDispo = 1;
+    if (widget.salle.disponibilite){
+      indiceDispo = 1; 
     }
 
     return Scaffold(
@@ -34,15 +39,15 @@ class SalleDetailPageState extends State<SalleDetailPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              //widget.salle.nom,
-              widget.salle.qualiteWifi,
+              widget.salle.nom,
+              //widget.salle.qualiteWifi,
               style: const TextStyle(
                 fontSize: 14.0, fontStyle: FontStyle.italic, color: Colors.white,
               ),
               textAlign: TextAlign.center,
             ),
             const Text(
-              'Description',
+              'Détails sur la salle',
               style: TextStyle(
                 fontSize: 22.0, color: Colors.white,
               ),
@@ -145,11 +150,23 @@ class SalleDetailPageState extends State<SalleDetailPage> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
-                  // Ajoutez ici la logique pour enregistrer le commentaire
-                  // ignore: avoid_print
-                  print(
-                      "Commentaire: ${_commentController.text}"); // Replace with a logging framework if you have one
+                onPressed: () {  
+                  if(_commentController.text.isNotEmpty){ 
+                    dbs.ajoutCommentaire(widget.salle.id, _commentController.text).then((value) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                      return BoiteDialogue(
+                        titre: "Succès",
+                        message: "Votre commentaire a été ajouté!",
+    );
+  },
+);
+                      _commentController.clear(); 
+                    }).catchError((onError){ 
+
+                    });
+                }
                 },
                 child: const Text("Soumettre le commentaire"),
               ),
