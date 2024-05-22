@@ -4,13 +4,14 @@ import 'package:flutter_appchat/models/salle.dart';
 class Etage {
    String nom;
    List<Salle> salles;
+   String image;
 
-  Etage({required this.nom, required this.salles}); 
+  Etage({required this.nom, required this.salles, required this.image});
 
 
 factory Etage.fromFireStore(DocumentSnapshot doc){  
   Map <String, dynamic> data= doc.data() as  Map <String, dynamic>; 
-  return Etage(nom:data['nom_etage'], salles: []) ; 
+  return Etage(nom:data['nom_etage'], salles: [], image:data['image']) ;
   
   }
 

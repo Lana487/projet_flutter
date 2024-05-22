@@ -19,7 +19,7 @@ class Salle {
   
   factory Salle.fromFireStore(DocumentSnapshot doc){  
   Map <String, dynamic> data= doc.data() as  Map <String, dynamic>; 
-  return Salle(id: doc.id, nom:data['nom_salle'], description: data['description'], disponibilite: data['disponibilite'], qualiteWifi: data['qualite_wifi']) ;
+  return Salle(id: data['id_salle'], nom:data['nom_salle'], description: data['description'], disponibilite: data['disponibilite'], qualiteWifi: data['qualite_wifi']) ;
   } 
 
   Map<String,dynamic>toJson(){ 
