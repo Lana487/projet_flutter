@@ -8,6 +8,7 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('Salle');
   final CollectionReference etageCollection =
       FirebaseFirestore.instance.collection('Etage');
+      final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   //Récupération de tous les étages
   Stream<List<Etage>> recuperationEtages() async* {
@@ -21,7 +22,20 @@ class DatabaseService {
       listEtages.add(etage);
       yield listEtages; // Emets la liste partiellement remplie à chaque itération
     }
-  }
+  } 
+
+  ///****test récup commentaire   ///  
+  Stream<List<Commentaire>> recuperationCommentaire(String idClasse) async* {
+    List<Commentaire> commentaires = [];
+     QuerySnapshot commentaireSnapshot = await FirebaseFirestore.instance
+        .collection('Commentaire')
+        .where('id_salle', isEqualTo: idClasse)
+        .get();
+for (var commentaire in commentaireSnapshot.docs) {
+      commentaires.add(Commentaire.fromFireStore(commentaire));
+    } 
+      yield commentaires; // Emets la liste partiellement remplie à chaque itération
+    } 
 
   //Récupération des salles rattachées à l'id de l'étage passé en paramètre
   Future<List<Salle>> recuperationSalles(String idEtage) async {
@@ -34,23 +48,20 @@ class DatabaseService {
     return salles;
   }
 
-  /// *****Commentaires**************
-  //Récupération des commentaires fait sur une salle dont l'id est passé en paramètre
-  Future<List<Commentaire>> recuperationCommentaire(String idClasse) async {
-    List<Commentaire> commentaires = [];
-    QuerySnapshot commentaireSnapshot = await FirebaseFirestore.instance
-        .collection('Commentaire')
-        .where('id_salle', isEqualTo: idClasse)
-        .get();
-    for (var commentaire in commentaireSnapshot.docs) {
-      commentaires.add(Commentaire.fromFireStore(commentaire));
-    }
-    return commentaires;
-  }
+
+
+  Stream<QuerySnapshot> recuperationCommentaireStream(String classroomId)  {
+    return FirebaseFirestore.instance.collection('Commentaire')
+      .where('classroomId', isEqualTo: classroomId) 
+      .orderBy('date', descending: true) 
+      .snapshots();
+  } 
+
+
 
   // Ajout des commentaires dans la  base de données
   Future<void> ajoutCommentaire(
-      String idSalle, String contenuCommentaire) async {
+      String idSalle, String contenuCommentaire) async { 
     try {
       if (idSalle.isNotEmpty) {
         Commentaire com = Commentaire(

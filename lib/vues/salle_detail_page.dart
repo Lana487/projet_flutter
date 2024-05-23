@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_appchat/services/database.dart';
 import 'package:flutter_appchat/widgets/boite_dialogue.dart';
+import 'package:flutter_appchat/widgets/liste_com.dart';
 import 'package:gap/gap.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/salle.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import '../widgets/detail_tuile.dart';
@@ -10,6 +11,7 @@ import '../widgets/detail_tuile.dart';
 class SalleDetailPage extends StatefulWidget {
   final Salle salle;
   final String nomEtage;
+  
 
   const SalleDetailPage({super.key, required this.salle, required this.nomEtage});
 
@@ -184,7 +186,7 @@ class SalleDetailPageState extends State<SalleDetailPage> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return BoiteDialogue(
+                            return BoiteDialogue( 
                               titre: "Succès",
                               message: "Votre commentaire a été ajouté!",
                             );
@@ -217,6 +219,11 @@ class SalleDetailPageState extends State<SalleDetailPage> {
                   ),
                   child: const Text("Mettre à jour"),
                 ),
+              ),
+              const SizedBox(height: 16),
+              Container(
+                height: 300,
+              child: ListeCommentaires(idClasse: widget.salle.id),
               ),
             ],
           ),
