@@ -16,7 +16,7 @@ class DatabaseService {
         await FirebaseFirestore.instance.collection('Etage').get();
     for (var etageDoc in etagesSnapshot.docs) {
       Etage etage = Etage.fromFireStore(etageDoc);
-      List<Salle> salles = await recuperationSalles(etageDoc.id);
+      Stream<List<Salle>> salles = await recuperationSalles(etageDoc.id);
       etage.salles = salles;
       listEtages.add(etage);
       yield listEtages; // Emets la liste partiellement remplie à chaque itération
@@ -24,19 +24,19 @@ class DatabaseService {
   }
 
   //Récupération des salles rattachées à l'id de l'étage passé en paramètre
-  Future<List<Salle>> recuperationSalles(String idEtage) async {
+  Stream<List<Salle>> recuperationSalles(String idEtage) async* {
     List<Salle> salles = [];
     QuerySnapshot sallesSnapshot =
         await salleCollection.where('id_etage', isEqualTo: idEtage).get();
     for (var salle in sallesSnapshot.docs) {
       salles.add(Salle.fromFireStore(salle));
     }
-    return salles;
+    yield salles;
   }
 
   /// *****Commentaires**************
   //Récupération des commentaires fait sur une salle dont l'id est passé en paramètre
-  Future<List<Commentaire>> recuperationCommentaire(String idClasse) async {
+  Stream<List<Commentaire>> recuperationCommentaire(String idClasse) async* {
     List<Commentaire> commentaires = [];
     QuerySnapshot commentaireSnapshot = await FirebaseFirestore.instance
         .collection('Commentaire')
@@ -45,7 +45,7 @@ class DatabaseService {
     for (var commentaire in commentaireSnapshot.docs) {
       commentaires.add(Commentaire.fromFireStore(commentaire));
     }
-    return commentaires;
+    yield commentaires;
   }
 
   // Ajout des commentaires dans la  base de données

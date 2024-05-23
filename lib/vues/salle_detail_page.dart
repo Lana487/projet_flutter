@@ -5,13 +5,15 @@ import 'package:gap/gap.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/salle.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import '../widgets/commentaires_tuile.dart';
 import '../widgets/detail_tuile.dart';
 
 class SalleDetailPage extends StatefulWidget {
   final Salle salle;
   final String nomEtage;
 
-  const SalleDetailPage({super.key, required this.salle, required this.nomEtage});
+  const SalleDetailPage(
+      {super.key, required this.salle, required this.nomEtage});
 
   @override
   SalleDetailPageState createState() => SalleDetailPageState();
@@ -27,7 +29,9 @@ class SalleDetailPageState extends State<SalleDetailPage> {
   @override
   void initState() {
     super.initState();
-    _indiceWifi = widget.salle.qualiteWifi == "Moyenne" ? 1 : (widget.salle.qualiteWifi == "Bonne" ? 2 : 0);
+    _indiceWifi = widget.salle.qualiteWifi == "Moyenne"
+        ? 1
+        : (widget.salle.qualiteWifi == "Bonne" ? 2 : 0);
     _indiceDispo = widget.salle.disponibilite ? 1 : 0;
   }
 
@@ -168,6 +172,18 @@ class SalleDetailPageState extends State<SalleDetailPage> {
                 ),
               ),
               const Gap(16.0),
+              Align(
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                  onPressed: _updateSalleData,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.indigo,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text("Mettre à jour"),
+                ),
+              ),
+              const Gap(16.0),
               TextField(
                 controller: _commentController,
                 decoration: const InputDecoration(
@@ -179,8 +195,11 @@ class SalleDetailPageState extends State<SalleDetailPage> {
               ElevatedButton(
                 onPressed: () {
                   if (_commentController.text.isNotEmpty) {
-                    dbs.ajoutCommentaire(widget.salle.id, _commentController.text).then(
-                          (value) {
+                    dbs
+                        .ajoutCommentaire(
+                            widget.salle.id, _commentController.text)
+                        .then(
+                      (value) {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -198,7 +217,8 @@ class SalleDetailPageState extends State<SalleDetailPage> {
                         builder: (BuildContext context) {
                           return BoiteDialogue(
                             titre: "Erreur",
-                            message: "Une erreur s'est produite lors de l'ajout du commentaire.",
+                            message:
+                                "Une erreur s'est produite lors de l'ajout du commentaire.",
                           );
                         },
                       );
@@ -207,16 +227,10 @@ class SalleDetailPageState extends State<SalleDetailPage> {
                 },
                 child: const Text("Soumettre le commentaire"),
               ),
-              Align(
-                alignment: Alignment.center,
-                child: ElevatedButton(
-                  onPressed: _updateSalleData,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.indigo,
-                    foregroundColor: Colors.white,
-                  ),
-                  child: const Text("Mettre à jour"),
-                ),
+              const Gap(8.0),
+              Container(
+                height: 300,
+                child: CommentairesTuile(idClasse: widget.salle.id),
               ),
             ],
           ),

@@ -3,8 +3,6 @@ import 'package:flutter_appchat/services/database.dart';
 import '../models/etage_salle.dart';
 import '../widgets/etage_tuile.dart';
 
-//DatabaseService dbs= DatabaseService();
-//final List <Etage> etages=[];
 
 class Menu extends StatelessWidget {
   const Menu({super.key});
@@ -21,12 +19,6 @@ class Menu extends StatelessWidget {
           backgroundColor: Colors.indigo,
           iconTheme: const IconThemeData(color: Colors.white),
           leading: const Icon(Icons.home),
-          //actions: [
-            //IconButton(
-              //onPressed: () => {},
-              //icon: const Icon(Icons.search),
-            //),
-          //],
           elevation: 7,
           shadowColor: Colors.blueAccent,
         ),
